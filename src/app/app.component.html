@@ -1,189 +1,49 @@
-<div class="main">
-  <div class="talent-col">
-    <div class="talent-row single">
-      <div class="talent-node square" style="background-image: url(https://wow.zamimg.com/images/wow/icons/large/spell_frost_chainsofice.jpg);">
-        <div class="counter">0/2</div>
-      </div>
-    </div>
-    <div class="talent-row single square">
-      <div class="talent-node inactive"
-      >
-      </div>
-    </div>
-    <div class="talent-row single square">
-      <div class="talent-node inactive">
-      </div>
-    </div>
-    <div class="talent-row double">
-      <div class="talent-node inactive square">
-      </div>
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row single round">
-      <div class="talent-node inactive">
-      </div>
-    </div>
-    <div class="talent-row triple">
-      <div class="talent-node inactive round">
-      </div>
-      <div class="hexagon inactive">
-      </div>
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row single">
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row single">
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row single left">
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row single">
-      <div class="talent-node inactive square">
+<div class="main text-center">
+  <div class="talent-tray d-flex flex-column align-items-center pb-5 pt-1">
+    <span class="py-2">Pick a class:</span>
+    <div class="d-flex flex-row gap-2">
+      <div (click)="selectClass(i)" *ngFor="let i of classList" [attr.id]="i.name" class="class-icon">
+        <img [src]="i.iconUrl" alt="">
       </div>
     </div>
   </div>
-  <div class="talent-col fill">
-    <div class="talent-row empty"></div>
-    <div class="talent-row empty"></div>
-    <div class="talent-row single">
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row empty"></div>
-    <div class="talent-row empty"></div>
-    <div class="talent-row empty"></div>
-    <div class="talent-row empty"></div>
-    <div class="talent-row single">
-      <div class="talent-node inactive square">
-      </div>
-    </div>
-    <div class="talent-row single">
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row empty"></div>
+  <div *ngIf="activeClass" class="talent-counter">
+    {{ talent_count || 0 }} / 31 points.
   </div>
-  <div class="talent-col">
-    <div class="talent-row single">
-      <div class="talent-node square" style="background-image: url(https://wow.zamimg.com/images/wow/icons/large/spell_frost_chainsofice.jpg);">
-        <div class="counter">0/2</div>
-      </div>
-    </div>
-    <div class="talent-row single">
-      <div class="talent-node inactive square">
-      </div>
-    </div>
-    <div class="talent-row single">
-      <div class="talent-node inactive square">
-      </div>
-    </div>
-    <div class="talent-row double">
-      <div class="talent-node inactive square">
-      </div>
-      <div class="talent-node inactive square">
-      </div>
-    </div>
-    <div class="talent-row single">
-      <div class="talent-node inactive square">
-      </div>
-    </div>
-    <div class="talent-row triple">
-      <div class="talent-node inactive square">
-      </div>
-      <div class="hexagon inactive">
-      </div>
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row single">
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row single">
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row empty"></div>
-    <div class="talent-row single">
-      <div class="talent-node inactive square">
-      </div>
-    </div>
+  <div class="reset">
+    <button (click)="reset()" class="btn btn-primary">Reset</button>
   </div>
-  <div class="talent-col fill">
-    <div class="talent-row empty"></div>
-    <div class="talent-row empty"></div>
-    <div class="talent-row single round">
-      <div class="talent-node inactive">
-      </div>
-    </div>
-    <div class="talent-row empty"></div>
-    <div class="talent-row empty"></div>
-    <div class="talent-row empty"></div>
-    <div class="talent-row empty"></div>
-    <div class="talent-row single">
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row single">
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row empty"></div>
-  </div>
-  <div class="talent-col">
-    <div class="talent-row single">
-      <div class="talent-node square" style="background-image: url(https://wow.zamimg.com/images/wow/icons/large/spell_frost_chainsofice.jpg);">
-        <div class="counter">0/2</div>
-      </div>
-    </div>
-    <div class="talent-row single">
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row single">
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row double">
-      <div class="talent-node inactive square">
-      </div>
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row single">
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row triple">
-      <div class="talent-node inactive square">
-      </div>
-      <div class="hexagon inactive">
-      </div>
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row single">
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row single">
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row single right">
-      <div class="talent-node inactive round">
-      </div>
-    </div>
-    <div class="talent-row single">
-      <div class="talent-node inactive square">
+  <div *ngIf="activeClass" class="talent-container d-flex justify-content-center">
+    <div *ngFor="let col of classTalents; let i = index;" [ngClass]="{ 'fill' : i % 2 !== 0 }"
+         class="talent-col">
+      <div *ngFor="let talentRow of col"
+           [ngClass]="{ 'single': talentRow.length === 1, 'double': talentRow.length === 2, 'triple': talentRow.length === 3, 'empty': talentRow.length === 0 }"
+           class="talent-row">
+        <app-node *ngFor="let node of talentRow"
+                  [align]="node.iconAlignment"
+                  [description]="node.tooltip"
+                  [iconUrl]="node.iconUrl"
+                  [id]="node.id"
+                  [maxLevel]="node.maxLevel"
+                  [name]="node.name"
+                  [ngClass]="node.iconAlignment ? node.iconAlignment : ''"
+                  [parentNodeOf]="node.parentNodeOf"
+                  [requiredTalents]="node.requiredTalents"
+                  [requiredTotalPoints]="node.requiredTotalPoints"
+                  [shape]="node.shape || 'square'"
+        ></app-node>
       </div>
     </div>
   </div>
 </div>
+<div class="tooltip-tray" id="tooltip">
+  <div class="tooltip-title" id="name">name</div>
+  <div class="tooltip-description" id="desc">description here</div>
+  <div class="tooltip-points" id="points-needed">Spend at least 7 points on previous talents</div>
+</div>
+<ng-container *ngFor="let col of classTalents">
+  <ng-container *ngFor="let talentRow of col">
+    <app-svg-connector *ngFor="let node of talentRow" [endingElementId]="node.parentNodeOf"
+                       [startingElementId]="node.id"></app-svg-connector>
+  </ng-container>
+</ng-container>

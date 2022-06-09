@@ -1,0 +1,116 @@
+.talent-node, .class-icon {
+  cursor: pointer;
+}
+
+.main {
+  background-color: rgba(32, 41, 56, 0.9);
+  min-height: 100vh;
+  padding: 32px;
+  color: white;
+  font-family: Montserrat, sans-serif;
+}
+
+.talent-container {
+  display: flex;
+  gap: 24px;
+}
+
+.talent-row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 12px 0;
+  justify-items: center;
+
+  &.single {
+    justify-content: center;
+
+    app-node.left {
+      display: flex;
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    app-node.right {
+      display: flex;
+      width: 100%;
+      justify-content: flex-end;
+    }
+  }
+
+  &.double {
+    justify-content: space-between;
+  }
+
+  &.triple {
+    justify-content: space-between;
+  }
+}
+
+.talent-col {
+  width: 225px;
+
+  &.fill {
+    width: 54px;
+  }
+
+  .empty {
+    height: 80px;
+    width: 54px;
+    padding: 0;
+  }
+
+  .talent-node, .hexagon {
+    &.disabled {
+      filter: grayscale(100%);
+    }
+
+    .active {
+      border-color: green;
+    }
+
+    .inactive {
+      border-color: gold
+    }
+  }
+}
+
+.class-icon {
+  box-sizing: border-box;
+  border: 2px solid white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tooltip-tray {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  padding: 8px;
+  border-radius: 8px;
+  border-style: solid;
+  border-width: 6px;
+  border-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxIAAAsSAdLdfvwAAAD/SURBVDhPzVMxCsJAELyzClgkfXoxVoo/sBDxFVbmFYLgKyII94G0EmzyAomVAXv7WAjp4s6SHEnUA7VxYLJ32Z05jt2TRVEIQErZpdAj2vzjPW7EC+nu2LBBTTwmukgYcCUeiWwiadEQx3G8pigcx0HQsCyLo+d5yGsTGIyILE7TdB2GoVhtdkg+4Xzao65h0qEP7uwmSWIUA4PhnHM4iAKuasOAEUWRUVwBJkqpcieENsiyrFx9Bm3wLf7IoN13E+q12iDPczGb9LnPJqAGtRUag+T7Pk/hVh1etnO5mPIBQRDoQXoaZZhgbNtXQptxcl1MvPz+mGAAfPechXgA+YRwWiSfg+oAAAAASUVORK5CYII=) 6 round round;
+  background-color: #010721cc;
+  width: 300px;
+  min-height: 40px;
+  font-family: sans-serif;
+  font-size: 12px;
+  line-height: 17px;
+  z-index: 999;
+
+  .tooltip-title {
+    color: white;
+    padding-bottom: 8px;
+  }
+
+  .tooltip-description {
+    color: gold;
+    padding-bottom: 8px;
+  }
+
+  .tooltip-points {
+    color: red;
+  }
+}
