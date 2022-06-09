@@ -2,7 +2,7 @@
   <div class="talent-tray d-flex flex-column align-items-center pb-5 pt-1">
     <span class="py-2">Pick a class:</span>
     <div class="d-flex flex-row gap-2">
-      <div (click)="selectClass(i)" *ngFor="let i of classList" [attr.id]="i.name" class="class-icon">
+      <div (click)="selectClass(i)" *ngFor="let i of classList" [attr.id]="i.name" class="class-icon" [ngClass]="{ 'enabled' : i.enabled }">
         <img [src]="i.iconUrl" alt="">
       </div>
     </div>

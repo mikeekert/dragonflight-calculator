@@ -7,8 +7,23 @@ import { ITalent } from '../models/talent';
   providedIn: 'root'
 })
 export class TalentsService {
+  get talentObjList(): ITalent[] {
+    return this._talentObjList;
+  }
+
+  set talentObjList(value: ITalent[]) {
+    this._talentObjList = value;
+  }
+  get talentMasterList(): ITalent[] {
+    return this._talentMasterList;
+  }
+
+  set talentMasterList(value: ITalent[]) {
+    this._talentMasterList = value;
+  }
   counterObservable = new BehaviorSubject<number>(this.pointCounter);
   talentsSelectedObservable = new BehaviorSubject<number[]>(this.talentsSelected);
+  private _talentMasterList: ITalent[] = [];
 
   constructor() {
   }
@@ -32,6 +47,8 @@ export class TalentsService {
     this._talentsSelected = value;
     this.talentsSelectedObservable.next(value);
   }
+
+  private _talentObjList: ITalent[] = [];
 
   addTalent(id: number) {
     if (!this.talentsSelected.includes(id)) {
@@ -619,5 +636,25 @@ export class TalentsService {
         ]
       ]
     ]
+  }
+
+  addTalentObject(id: number, level: number) {
+    let talent = this.talentObjList.find(t => t.id === id);
+    if (talent) {
+      talent.level = level;
+    } else {
+      const t = this.talentMasterList.find(t => t.id === id);
+      if (t) {
+        t.level = level;
+        this.talentObjList.push(t);
+      }
+    }
+  }
+
+  removeTalentObject(id: number) {
+    const talent = this.talentObjList.find(t => t.id === id);
+    if (talent) {
+      this.talentObjList.splice(this.talentObjList.indexOf(talent), 1);
+    }
   }
 }

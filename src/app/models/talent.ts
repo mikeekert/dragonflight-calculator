@@ -9,5 +9,6 @@ export interface ITalent {
   requiredTotalPoints: number;
   shape?: ('round' | 'square' | 'hexagon');
   iconAlignment?: ('left' | 'right' | 'center');
+  level?: number;
 }
 

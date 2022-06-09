@@ -1,4 +1,5 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { ITalent } from '../../models/talent';
 import { TalentsService } from '../../services/talents.service';
 
 @Component({
@@ -29,35 +30,6 @@ export class NodeComponent implements OnInit {
     const tooltip_tray = document.getElementById('tooltip');
     if (tooltip_tray) {
       tooltip_tray.style.display = 'none';
-    }
-  }
-
-  private highlight(event: MouseEvent) {
-    const tooltip_tray = document.getElementById('tooltip');
-    if (!tooltip_tray) {
-      return;
-    }
-    tooltip_tray.style.display = 'block';
-    const element = event.currentTarget as HTMLElement;
-    tooltip_tray.style.left = (element.offsetLeft + 65) + 'px';
-    tooltip_tray.style.top = element.offsetTop + 'px';
-    const name = document.getElementById('name');
-    if (name) {
-      name.innerHTML = this.name;
-    }
-    const description = document.getElementById('desc');
-    if (description) {
-      description.innerHTML = this.description;
-    }
-    const points = document.getElementById('points-needed');
-    if (points) {
-      const numOfPoints = this.requiredTotalPoints - this.talentsService.pointCounter;
-      if (numOfPoints > 0) {
-        points.style.display = 'block';
-        points.innerText = 'You need ' + numOfPoints + ' more points to unlock this talent.';
-      } else {
-        points.style.display = 'none';
-      }
     }
   }
 
@@ -104,12 +76,65 @@ export class NodeComponent implements OnInit {
 
   decrement(event: { preventDefault: () => void; }) {
     event.preventDefault();
-    const requiredTalentsRemaining = this.parentNodeOf?.some(parentId => {
-      return this.talentsService.talentsSelected.includes(parentId);
+    const requiredTalentsRemaining = this.parentNodeOf?.some(childId => {
+      const childTalent = this.talentsService.talentMasterList.find(talent => talent.id === childId) || null;
+      if (!childTalent) {
+        return false;
+      }
+      return this.talentsService.talentsSelected.includes(childTalent.id);
     });
-    if (!requiredTalentsRemaining) {
-      this.reduceTalentPoints();
+    const talentPointsPending = this.talentsService.pointCounter - 1;
+    const minimumPointsRequired = this.findHighestTalentRequiredValue(this.talentsService.talentMasterList);
+    const talentWithLargestRequirement = this.findTalentWithGreatestRequirement(this.talentsService.talentObjList);
+    const selectionValidOnCurrentNextTierTalent = talentPointsPending - talentWithLargestRequirement.level < minimumPointsRequired && this.id !== talentWithLargestRequirement.id
+    if (selectionValidOnCurrentNextTierTalent) {
+      return;
     }
+    if (requiredTalentsRemaining) {
+      return;
+    }
+    this.reduceTalentPoints();
+  }
+
+  private highlight(event: MouseEvent) {
+    const tooltip_tray = document.getElementById('tooltip');
+    if (!tooltip_tray) {
+      return;
+    }
+    tooltip_tray.style.display = 'block';
+    const element = event.currentTarget as HTMLElement;
+    tooltip_tray.style.left = (element.offsetLeft + 65) + 'px';
+    tooltip_tray.style.top = element.offsetTop + 'px';
+    const name = document.getElementById('name');
+    if (name) {
+      name.innerHTML = this.name;
+    }
+    const description = document.getElementById('desc');
+    if (description) {
+      description.innerHTML = this.description;
+    }
+    const points = document.getElementById('points-needed');
+    if (points) {
+      const numOfPoints = this.requiredTotalPoints - this.talentsService.pointCounter;
+      if (numOfPoints > 0) {
+        points.style.display = 'block';
+        points.innerText = 'You need ' + numOfPoints + ' more points to unlock this talent.';
+      } else {
+        points.style.display = 'none';
+      }
+    }
+  }
+
+  private findHighestTalentRequiredValue(talentMasterList: ITalent[]) {
+    let maxRequired = 0;
+    talentMasterList.forEach(talent => {
+      if (talent && talent.level) {
+        if (talent.requiredTotalPoints > maxRequired) {
+          maxRequired = talent.requiredTotalPoints;
+        }
+      }
+    });
+    return maxRequired;
   }
 
   private checkTalentPointsRequirement() {
@@ -126,11 +151,40 @@ export class NodeComponent implements OnInit {
   }
 
   private checkTalentsSelected(id: number, increasePoints: boolean) {
-    if (increasePoints && this.level == this.maxLevel) {
-      this.talentsService.addTalent(id);
+    if (increasePoints) {
+      if (this.level == this.maxLevel) {
+        this.talentsService.addTalent(id);
+      }
+      this.talentsService.addTalentObject(id, this.level);
+      console.log(this.talentsService.talentObjList);
     }
     if (!increasePoints && this.level != this.maxLevel) {
       this.talentsService.removeTalent(id);
+      this.talentsService.removeTalentObject(this.id);
     }
+  }
+
+  private findTalentWithGreatestRequirement(talentObjList: ITalent[]): ITalent {
+    let maxRequired = 0;
+    let maxRequiredTalent: ITalent = {
+      tooltip: '',
+      id: 0,
+      name: '',
+      iconUrl: '',
+      requiredTotalPoints: 0,
+      maxLevel: 0,
+      requiredTalents: [],
+      parentNodeOf: [],
+      level: 0
+    };
+    talentObjList.forEach(talent => {
+      if (talent && talent.level) {
+        if (talent.requiredTotalPoints > maxRequired) {
+          maxRequired = talent.requiredTotalPoints;
+          maxRequiredTalent = talent;
+        }
+      }
+    });
+    return maxRequiredTalent;
   }
 }
