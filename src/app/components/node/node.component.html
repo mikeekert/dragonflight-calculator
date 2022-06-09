@@ -2,7 +2,13 @@
        [id]="id"
        (click)="increment()"
        (contextmenu)="decrement($event, requiredTotalPoints)"
-       [ngClass]="[align ? align : '', shape, minimumTalentPointsMet && !isDisabled ? (level == maxLevel ? 'maxed' : 'not-maxed') : 'disabled', shape === 'hexagon' ? 'hexagon' : '']"
+       [ngClass]="[
+       align ? align : '',
+       shape,
+       minimumTalentPointsMet && !isDisabled ? (level == maxLevel ? 'maxed' : 'not-maxed') : '',
+       isDisabled ? 'disabled' : '',
+       shape === 'hexagon' ? 'hexagon' : ''
+       ]"
        [ngStyle]="{ 'background-image': 'url(' + 'https://' + iconUrl + ')' }"
   >
     <div class="counter" *ngIf="!isDisabled || counter < 31">{{level}}/{{maxLevel}}</div>

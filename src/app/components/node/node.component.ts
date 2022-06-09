@@ -55,6 +55,9 @@ export class NodeComponent implements OnInit {
 
     this.talentsService.counterObservable.subscribe(resp => {
       this.counter = resp;
+      if (this.counter === 31 && this.level === 0) {
+        this.isDisabled = true;
+      }
     });
   }
 
