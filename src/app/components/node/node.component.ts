@@ -84,7 +84,7 @@ export class NodeComponent implements OnInit {
       return this.talentsService.talentsSelected.includes(childTalent.id);
     });
     const talentPointsPending = this.talentsService.pointCounter - 1;
-    const minimumPointsRequired = this.findHighestTalentRequiredValue(this.talentsService.talentMasterList);
+    const minimumPointsRequired = this.findHighestTalentRequiredValue(this.talentsService.talentObjList);
     const talentWithLargestRequirement = this.findTalentWithGreatestRequirement(this.talentsService.talentObjList);
     const selectionValidOnCurrentNextTierTalent = talentPointsPending - talentWithLargestRequirement.level < minimumPointsRequired && this.id !== talentWithLargestRequirement.id
     if (selectionValidOnCurrentNextTierTalent) {
