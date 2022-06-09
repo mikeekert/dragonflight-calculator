@@ -1,4 +1,5 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { indexOf } from 'lodash-es';
 import { ITalent } from '../../models/talent';
 import { TalentsService } from '../../services/talents.service';
 
@@ -74,25 +75,58 @@ export class NodeComponent implements OnInit {
     }
   }
 
-  decrement(event: { preventDefault: () => void; }) {
+  decrement(event: { preventDefault: () => void }, requiredTotalPoints: number) {
     event.preventDefault();
     const requiredTalentsRemaining = this.parentNodeOf?.some(childId => {
       const childTalent = this.talentsService.talentMasterList.find(talent => talent.id === childId) || null;
       if (!childTalent) {
         return false;
       }
-      return this.talentsService.talentsSelected.includes(childTalent.id);
+      return this.talentsService.talentObjList.includes(childTalent);
     });
-    const talentPointsPending = this.talentsService.pointCounter - 1;
-    const minimumPointsRequired = this.findHighestTalentRequiredValue(this.talentsService.talentObjList);
-    const talentWithLargestRequirement = this.findTalentWithGreatestRequirement(this.talentsService.talentObjList);
-    const selectionValidOnCurrentNextTierTalent = talentPointsPending - talentWithLargestRequirement.level < minimumPointsRequired && this.id !== talentWithLargestRequirement.id
-    if (selectionValidOnCurrentNextTierTalent) {
-      return;
-    }
+
     if (requiredTalentsRemaining) {
       return;
     }
+
+    const tier1Talents = this.talentsService.talentObjList.filter(talent => talent.requiredTotalPoints === 0);
+    const tier2Talents = this.talentsService.talentObjList.filter(talent => talent.requiredTotalPoints === 8);
+
+    const totalTier1Points = tier1Talents.reduce((acc, curr) => acc + curr.level, 0);
+    const totalTier2Points = tier2Talents.reduce((acc, curr) => acc + curr.level, 0);
+
+    const tier2enabled = this.talentsService.talentObjList.some(talent => talent.requiredTotalPoints === 8);
+    const tier3enabled = this.talentsService.talentObjList.some(talent => talent.requiredTotalPoints === 20);
+
+    let currentComponentTier;
+    switch(requiredTotalPoints) {
+      case 0:
+        currentComponentTier = 1;
+        break;
+      case 8:
+        currentComponentTier = 2;
+        break;
+      case 20:
+        currentComponentTier = 3;
+        break;
+      default:
+        currentComponentTier = 1;
+        break;
+    }
+
+    if (currentComponentTier === 1 ) {
+      if (tier3enabled) {
+        if (totalTier1Points + totalTier2Points <= 20) {
+          return;
+        }
+      }
+      if (tier2enabled) {
+        if (totalTier1Points <= 8) {
+          return;
+        }
+      }
+    }
+
     this.reduceTalentPoints();
   }
 
