@@ -1,0 +1,67 @@
+.talent-node {
+  position: relative;
+  cursor: pointer;
+  background-size: contain;
+
+  .counter {
+    user-select: none;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 16px;
+    width: 24px;
+    background: #212121;
+    margin: 4px;
+    font-size: 12px;
+  }
+  flex-basis: 50px;
+  height: 50px;
+  width: 50px;
+  box-sizing: content-box;
+  border-style: solid;
+  border-width: 3px;
+  background-color: grey;
+  border-radius: 8px;
+  z-index: 2;
+
+  &.round {
+    border-radius: 50%;
+  }
+
+  &.disabled {
+    filter: grayscale(100%);
+  }
+
+  &.maxed {
+    border-color: green;
+  }
+
+  &.not-maxed {
+    border-color: gold
+  }
+
+  &.hexagon {
+    &.maxed {
+      background-color: green;
+    }
+
+    &.not-maxed {
+      background-color: gold
+    }
+    position: relative;
+    height: 56px;
+    width: 60px;
+    background-color: white;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      bottom: 3px;
+      right: 3px;
+      clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    }
+  }
+}

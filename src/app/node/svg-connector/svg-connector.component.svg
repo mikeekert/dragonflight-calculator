@@ -1,0 +1,5 @@
+<svg>
+    <line
+      *ngFor="let i of endingElements"
+      [attr.x1]="i.x" [attr.y1]="i.y" [attr.x2]="i.x2" [attr.y2]="i.y2" stroke="#fff" stroke-width="3"/>
+</svg>

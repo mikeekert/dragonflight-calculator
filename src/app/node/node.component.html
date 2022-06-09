@@ -1,0 +1,9 @@
+  <div class="talent-node"
+       [id]="id"
+       (click)="increment()"
+       (contextmenu)="decrement($event)"
+       [ngClass]="[align ? align : '', shape, minimumTalentPointsMet && !isDisabled ? (level == maxLevel ? 'maxed' : 'not-maxed') : 'disabled', shape === 'hexagon' ? 'hexagon' : '']"
+       [ngStyle]="{ 'background-image': 'url(' + 'https://' + iconUrl + ')' }"
+  >
+    <div class="counter" *ngIf="!isDisabled || counter < 31">{{level}}/{{maxLevel}}</div>
+  </div>
