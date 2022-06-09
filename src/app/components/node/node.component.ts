@@ -1,5 +1,5 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { TalentsService } from '../services/talents.service';
+import { TalentsService } from '../../services/talents.service';
 
 @Component({
   selector: 'app-node',
